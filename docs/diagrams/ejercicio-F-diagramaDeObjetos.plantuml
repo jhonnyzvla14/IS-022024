@@ -1,0 +1,88 @@
+@startuml juegoVoleyball
+
+skinparam ObjectFontColor white
+skinparam ObjectBorderColor cyan
+skinparam ObjectBackgroundColor 2A3058
+
+
+object "Jose Mathaus: jugador" as JoseMathaus{
+  nombre = "Jose Mathaus"
+  telefono = 04262857894
+  direccion = "Valera, Trujillo"
+  posicion = "Armador"
+  numero = 3
+  esCapitan = false
+  equipoAlQuePertenece = "Seleccion de Venezuela"
+}
+object "Winder Monta: jugador" as WinderMonta{
+  nombre = "Winder Monta"
+  telefono = 04163649694
+  direccion = "Barcelona, Anzoategui"
+  posicion = "Central"
+  numero = 8
+  esCapitan = false
+  equipoAlQuePertenece = "Seleccion de Venezuela"
+}
+object "Ronald Sarti: entrenador" as RonaldSarti{
+  nombre = "Ronald Sarti"
+  telefono = 91112345678
+  direccion = "La plata, Buenos Aires"
+  añosDeExperiencia = 7
+  nivelAcreditacion = "certificado nivel 3"
+}
+object "Brayan Aguilera: jugador" as BrayanAguilera {
+  nombre = "Brayan Aguilera"
+  telefono = 4058730122
+  direccion = "La Castellana, Bogota"
+  posicion = "Armador"
+  numero = 12
+  esCapitan = false
+  equipoAlQuePertenece = "Seleccion de Colombia"
+}
+object "Santiago Gil: jugador" as SantiagoGil {
+  nombre = "Santiago Gil"
+  telefono = 7055416182
+  direccion = "Barranquilla, Atlantico"
+  posicion = "Libero"
+  numero = 5
+  esCapitan = false
+  equipoAlQuePertenece = "Seleccion de Colombia"
+}
+object "Carlos Osorio: entrenador" as CarlosOsorio{
+  nombre = "Carlos Osorio"
+  telefono = 3043720023
+  direccion = "Medellin, Antioquia"
+  añosDeExperiencia = 10
+  nivelAcreditacion = "certificado nivel 3"
+}
+object "Venezuela: equipo" as SeleccionVenezuela{
+  nombre: "Seleccion de Venezuela"
+  registro: "Sin registro"
+}
+object "Colombia: equipo" as SeleccionColombia{
+  nombre: "Seleccion de Colombia"
+  registro: "Sin registro"
+}
+object "Colombia vs Venezuela: juego" as Competicion{
+  localidad = "Santiago de Chile"
+  fecha = "05/11"
+  hora = "7:00pm"
+}
+
+JoseMathaus --o SeleccionVenezuela: pertenece
+WinderMonta --o SeleccionVenezuela: pertenece
+
+RonaldSarti -- JoseMathaus: entrena
+RonaldSarti -- WinderMonta: entrena
+
+CarlosOsorio -- BrayanAguilera: entrena
+CarlosOsorio -- SantiagoGil: entrena
+
+BrayanAguilera --o SeleccionColombia: pertenece
+SantiagoGil --o SeleccionColombia: pertenece
+
+SeleccionVenezuela --  Competicion: Compite
+SeleccionColombia --  Competicion: Compite
+
+
+@enduml

@@ -1,0 +1,47 @@
+@startuml juegoVoleyball 
+
+skinparam ClassBorderColor black
+skinparam ClassFontColor 7048E5
+skinparam ClassBackgroundColor white
+skinparam ClassHeaderBackgroundColor black
+
+abstract class persona{
+  #nombre: string
+  #telefono: int
+  #direccion: string
+}
+class jugador{
+  -posicion: string
+  -numero: int
+  -esCapitan: bool
+  -equipoAlQuePertenece: string
+  +jugarVoleyball()
+} 
+class entrenador{
+  -añosDeExperiencia: int
+  -nivelAcreditacion: string
+  +entrenarJugadores()
+}
+class equipo{
+  -nombre: string
+  -registro: string
+  +competir()
+}
+class juego{
+  -localidad: string
+  -fecha: string
+  -hora: string
+}
+ 
+
+equipo o-- "6..20" jugador: pertenece
+equipo "1..*   " o-- entrenador: entrena
+equipo "2" --  juego: compite
+
+entrenador -- "1..*" jugador: entrena
+
+persona <|-- jugador 
+persona <|-- entrenador 
+
+
+@enduml
