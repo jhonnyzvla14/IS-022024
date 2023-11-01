@@ -1,6 +1,7 @@
-@startuml juegoVoleyball 
+@startuml clasesJuegoVoleyball 
 
 skinparam ClassBorderColor black
+skinparam ClassBorderThickness 2
 skinparam ClassFontColor 7048E5
 skinparam ClassBackgroundColor white
 skinparam ClassHeaderBackgroundColor black
@@ -36,7 +37,7 @@ class juego{
 
 equipo o-- "6..20" jugador: pertenece
 equipo "1..*   " o-- entrenador: entrena
-equipo "2" --  juego: compite
+equipo "2" --*  juego: compite
 
 entrenador -- "1..*" jugador: entrena
 

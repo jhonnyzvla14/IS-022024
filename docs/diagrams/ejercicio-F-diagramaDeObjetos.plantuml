@@ -1,9 +1,9 @@
-@startuml juegoVoleyball
+@startuml objetosJuegoVoleyball
 
 skinparam ObjectFontColor white
 skinparam ObjectBorderColor cyan
 skinparam ObjectBackgroundColor 2A3058
-
+skinparam ObjectBorderThickness 2 
 
 object "Jose Mathaus: jugador" as JoseMathaus{
   nombre = "Jose Mathaus"
@@ -85,8 +85,8 @@ SantiagoGil --o SeleccionColombia: pertenece
 
 CarlosOsorio --o SeleccionColombia: pertenece
 
-SeleccionVenezuela --  Competicion: Compite
-SeleccionColombia --  Competicion: Compite
+SeleccionVenezuela --*  Competicion: Compite
+SeleccionColombia --*  Competicion: Compite
 
 
 @enduml
