@@ -72,6 +72,8 @@ object "Colombia vs Venezuela: juego" as Competicion{
 JoseMathaus --o SeleccionVenezuela: pertenece
 WinderMonta --o SeleccionVenezuela: pertenece
 
+RonaldSarti --o SeleccionVenezuela: pertenece
+
 RonaldSarti -- JoseMathaus: entrena
 RonaldSarti -- WinderMonta: entrena
 
@@ -80,6 +82,8 @@ CarlosOsorio -- SantiagoGil: entrena
 
 BrayanAguilera --o SeleccionColombia: pertenece
 SantiagoGil --o SeleccionColombia: pertenece
+
+CarlosOsorio --o SeleccionColombia: pertenece
 
 SeleccionVenezuela --  Competicion: Compite
 SeleccionColombia --  Competicion: Compite
