@@ -17,13 +17,13 @@ skinparam State{
   BorderColor cyan
 }
   
-[*]-->encargarPedido
+[*]-->encargarPedido : establecer contacto con el cliente
 encargarPedido: entry/ preguntar por disponibilidad
 encargarPedido: do/ encargar producto
 encargarPedido: do/ obtener datos del cliente
 encargarPedido: exit/ guardar datos del pedido
 
-encargarPedido-->validarPedido: procesarPedido()
+encargarPedido->validarPedido: procesarPedido()
 validarPedido: entry/ solicitar datos del pedido
 validarPedido: do/ examinar los datos del pedido
 validarPedido: do/ verificar disponibilidad del producto
@@ -34,12 +34,26 @@ pagoPedido: entry/ seleccionar metodo de pago
 pagoPedido: do/ pagar pedido
 pagoPedido: exit/ confirmar pago
 
-pagoPedido-->enviarPedido: empaquetarPedido()
-enviarPedido: entry/ contactar a los transportistas
-enviarPedido: do/ dar detalles de la direccion de envio
-enviarPedido: do/ entregar pedido a los transportistas
-enviarPedido: exit/ confirmar salida de los transportistas
+state envio <<choice>>
+pagoPedido->envio: empaquetarPedido()
+envio --> enviarPedidoNormal : [pedido urgente = no]
+envio --> enviopedidoUrgente : [pedido urgente = si]
 
-enviarPedido-->[*]
+enviarPedidoNormal: entry/ contactar a los transportistas
+enviarPedidoNormal: do/ dar detalles de la direccion de envio
+enviarPedidoNormal: do/ confirmar fecha salida de los transportistas 
+enviarPedidoNormal: exit/entregar pedido a los transportistas 
+
+enviarPedidoNormal--->finiquitarEnvio: dar cervezas a los transportistas
+finiquitarEnvio: entry/enviar recibo al cliente
+finiquitarEnvio: exit/ añadir cliente a la lista de satisfechos
+
+enviopedidoUrgente: entry/ contactar a los transportistas
+enviopedidoUrgente: do/ dar detalles de la direccion de envio
+enviopedidoUrgente: do/ verificar disponibilidad para entrega inmediata
+enviopedidoUrgente: exit/ entregar pedido a los transportistas 
+
+finiquitarEnvio-->[*] : confirmar salida del envio  
+enviopedidoUrgente---->[*] : confirmar salida del envio
  
 @enduml
