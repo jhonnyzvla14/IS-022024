@@ -1,0 +1,45 @@
+@startuml "diagramaDeComunicacion"
+
+skinparam title{
+  BackgroundColor aqua-pink
+  BorderRoundCorner 15
+  BorderThickness 2
+  BorderColor orange
+}
+
+skinparam Object{
+  BorderThickness 2
+  BorderColor blue
+  BackgroundColor 485081
+  AttributeFontColor cyan
+}
+hide members
+
+skinparam note{
+  BackgroundColor transparent
+  FontColor black
+  BorderColor transparent
+} 
+
+title Reto 06 \nEjercicio h
+
+object "registroNuevaVenta: Registro" as registro
+object "nuevaVenta: Venta" as venta
+
+registro -d--> venta
+note on link
+    1: crearNuevaVenta()
+end note
+registro -d--> venta
+note on link
+    2: introducirArticulo()
+end note
+venta -d--> registro
+note on link
+    3: crearLineaVenta()
+end note
+registro -d--> venta
+note on link
+    4: finalizarVenta()
+end note
+@enduml

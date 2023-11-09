@@ -1,0 +1,45 @@
+@startuml "diagramaDeEstado"
+
+title "Reto06 \n Ejercicio i"
+
+skinparam title{
+  BorderColor blue
+  BorderThickness 2
+  BorderRoundCorner 10
+  BackgroundColor 000000-blue
+  FontColor FFFFFF
+}
+
+skinparam State{
+  BackgroundColor 093949-black
+  FontColor FFFFFF
+  BorderThickness 2
+  BorderColor cyan
+}
+  
+[*]-->encargarPedido
+encargarPedido: entry/ preguntar por disponibilidad
+encargarPedido: do/ encargar producto
+encargarPedido: do/ obtener datos del cliente
+encargarPedido: exit/ guardar datos del pedido
+
+encargarPedido-->validarPedido: procesarPedido()
+validarPedido: entry/ solicitar datos del pedido
+validarPedido: do/ examinar los datos del pedido
+validarPedido: do/ verificar disponibilidad del producto
+validarPedido: exit/ confirmar datos del pedido
+
+validarPedido-->pagoPedido: cobrarPedido() 
+pagoPedido: entry/ seleccionar metodo de pago
+pagoPedido: do/ pagar pedido
+pagoPedido: exit/ confirmar pago
+
+pagoPedido-->enviarPedido: empaquetarPedido()
+enviarPedido: entry/ contactar a los transportistas
+enviarPedido: do/ dar detalles de la direccion de envio
+enviarPedido: do/ entregar pedido a los transportistas
+enviarPedido: exit/ confirmar salida de los transportistas
+
+enviarPedido-->[*]
+ 
+@enduml
