@@ -8,9 +8,6 @@ public class addInstructionView extends JFrame{
     panelInstrucciones = new addInstruccionPanel();
     panelInstrucciones.addLogo(logoInstructions);
 
-
-
-
     this.setBounds(500, 40, 530, 700);
     this.setVisible(true);
     this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
