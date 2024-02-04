@@ -1,10 +1,10 @@
 package crearExamenPack;
 
 import javax.swing.*;
+import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
-import javax.swing.text.PlainDocument;
 
 import java.awt.*;
 
@@ -12,6 +12,29 @@ public class createPanel extends JPanel {
     createPanel(){
     }
 
+    public static class LimitedTextField extends JTextField {
+        private int maxLength;
+
+        public LimitedTextField(int maxLength) {
+            this.maxLength = maxLength;
+            ((AbstractDocument) getDocument()).setDocumentFilter(new DocumentFilter() {
+                @Override
+                public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr) throws BadLocationException {
+                    if ((fb.getDocument().getLength() + string.length()) <= maxLength) {
+                        super.insertString(fb, offset, string, attr);
+                    }
+                }
+
+                @Override
+                public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+                    if ((fb.getDocument().getLength() + text.length() - length) <= maxLength) {
+                        super.replace(fb, offset, length, text, attrs);
+                    }
+                }
+            });
+        }
+    }
+    
     public void addSideText(String content,int x, int y, int w, int h){
         JLabel cont = new JLabel(content);
         cont.setBounds(x,y, w, h);
@@ -24,15 +47,19 @@ public class createPanel extends JPanel {
     public void addTextBox(JTextField campo,int x, int y, int w, int h){
         campo.setBounds(x, y, w, h);
     }
+    
     public void addComboBox(JComboBox lista,int x,int y, int w, int h){
         lista.setBounds(x, y, w, h);
     }
+  
     public void addTextArea(JTextArea campo,int x, int y, int w, int h,boolean b){
         campo.setBounds(x,y,w,h);
         campo.setEditable(b);
         campo.setFont(new Font("MyriadPro",Font.BOLD, 14));
     }
+   
     Color Fondo = new Color(238,237,238);
+    
     public void addTitulo(String Contenido,int x,int y,int w,int h,int s){
         JLabel titulo = new JLabel(Contenido, SwingConstants.LEFT);
         titulo.setOpaque(true);

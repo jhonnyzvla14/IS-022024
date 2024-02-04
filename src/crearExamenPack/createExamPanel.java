@@ -1,12 +1,11 @@
 package crearExamenPack;
-
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.AbstractDocument;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.DocumentFilter;
+
+import Modelos.Domain;
+import Modelos.Exam;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -16,7 +15,7 @@ import java.awt.event.WindowEvent;
 
 class createExamPanel extends createPanel{
     private JLabel newLabel;
-    public JTextField NameBox;
+    public LimitedTextField NameBox;
     public JTextField DurationBox;
     private JComboBox Levels;
     private JComboBox AsociatedCourses;
@@ -34,11 +33,11 @@ class createExamPanel extends createPanel{
         Button addEdit1 = new Button();
         Button addEdit2 = new Button();
         aggButtons(botonCrear,addEdit1,addEdit2);
-        NameBox= new JTextField();
+        NameBox= new LimitedTextField(20);
         addNameBox(NameBox);
         DurationBox= new JTextField();
         setDurationBox(DurationBox);
-        String [] Prueba ={"Nivel 1", "NIVEL 2", "Nivel 3"};
+        String [] Prueba ={null,"Nivel 1", "NIVEL 2", "Nivel 3"};
         Levels = new JComboBox(Prueba);
         setLevelBox(Levels);
         String [] CursosP={"Java","Comer","No Matar"};
@@ -60,14 +59,15 @@ class createExamPanel extends createPanel{
             @Override
             public void actionPerformed(ActionEvent ae){
                 if(camposLlenos()){
-                    JOptionPane.showMessageDialog(null, "Examen Creado");
+                    Exam nuevoExam= new Exam(1,getDurationBox(),getInstructionsArea(),getNameBox());
+                    Domain nuevoDomain=new Domain(1,getDominumArea());
+                    JOptionPane.showMessageDialog(null, "EXAMEN CREADO");
                     System.exit(0);
                 }
-                    JOptionPane.showMessageDialog(null, "Manco");
+                    JOptionPane.showMessageDialog(null, "DEBE LLENAR TODOS LOS CAMPOS");
             }
         };
-    
-    
+      
         ActionListener openDominium = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae){
@@ -92,6 +92,7 @@ class createExamPanel extends createPanel{
                 });
             }
         };
+       
         ActionListener openInstructions = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae){
@@ -239,18 +240,23 @@ class createExamPanel extends createPanel{
         }
         return true;}
 
-    private void getNameBox(){
+    public String getNameBox(){
+        return NameBox.getText();
     }
-    private void getLevelBox(){  
+    public String getLevelBox(){  
+        return Levels.getSelectedItem().toString();
     }
-    private void getCourseBox(){
+    public String getCourseBox(){
+        return AsociatedCourses.getSelectedItem().toString();
     }
-    private void getDurationBox(){
+    public int getDurationBox(){
+        return Integer.parseInt(DurationBox.getText());
     }
-    private void getDominumArea(){
+    public String getDominumArea(){
+        return DominiumArea.getText();
     }
-    private void getInstructionsArea (){
-
+    private String getInstructionsArea (){
+         return InstructionsArea.getText();
 }
 
 }
