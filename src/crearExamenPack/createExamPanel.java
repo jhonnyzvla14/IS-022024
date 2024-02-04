@@ -1,10 +1,18 @@
 package crearExamenPack;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 class createExamPanel extends createPanel{
     private JLabel newLabel;
@@ -16,6 +24,7 @@ class createExamPanel extends createPanel{
     public static JTextArea InstructionsArea;
     public addDominiumView dominiumWindow;
     public addInstructionView instrucWindow;
+    private boolean dialogOpen= false;
     public createExamPanel(){
         this.setLayout(null);
         this.setBackground(Fondo); 
@@ -49,25 +58,67 @@ class createExamPanel extends createPanel{
         ActionListener crearExamen = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae){
-                JOptionPane.showMessageDialog(null, "Examen Creado");
-                System.exit(0);
+                if(camposLlenos()){
+                    JOptionPane.showMessageDialog(null, "Examen Creado");
+                    System.exit(0);
+                }
+                    JOptionPane.showMessageDialog(null, "Manco");
             }
         };
+    
+    
         ActionListener openDominium = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae){
+                addEdit1.setEnabled(false);
+                addEdit2.setEnabled(false);
+                NameBox.setEnabled(false);
+                AsociatedCourses.setEnabled(false);
+                DurationBox.setEnabled(false);
+                Levels.setEnabled(false);
                 dominiumWindow = new addDominiumView();
+                dominiumWindow.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosed(WindowEvent e){
+                        NameBox.setEnabled(true);
+                        AsociatedCourses.setEnabled(true);
+                        DurationBox.setEnabled(true);
+                        Levels.setEnabled(true);
+                        addEdit1.setEnabled(true);
+                        addEdit2.setEnabled(true);
+    
+                    }
+                });
             }
         };
         ActionListener openInstructions = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae){
+                addEdit1.setEnabled(false);
+                addEdit2.setEnabled(false);
                 instrucWindow = new addInstructionView();
+                NameBox.setEnabled(false);
+                AsociatedCourses.setEnabled(false);
+                DurationBox.setEnabled(false);
+                Levels.setEnabled(false);
+                instrucWindow.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosed(WindowEvent e){
+                        NameBox.setEnabled(true);
+                        AsociatedCourses.setEnabled(true);
+                        DurationBox.setEnabled(true);
+                        Levels.setEnabled(true);
+                        addEdit1.setEnabled(true);
+                        addEdit2.setEnabled(true);
+                    }
+                });
             }
         };
+
         botonCrear.addActionListener(crearExamen);
         addEdit1.addActionListener(openDominium);
         addEdit2.addActionListener(openInstructions);
+    
     }
 
     protected void addLogo(JLabel label){
@@ -106,6 +157,40 @@ class createExamPanel extends createPanel{
         this.add(lista);
     }
     private void setDurationBox(JTextField cont){
+        AbstractDocument document = (AbstractDocument) cont.getDocument();
+document.setDocumentFilter(new IntegerDocumentFilter());
+
+cont.getDocument().addDocumentListener(new DocumentListener() {
+    @Override
+    public void insertUpdate(DocumentEvent e) {
+        validateValue();
+    }
+
+    @Override
+    public void removeUpdate(DocumentEvent e) {
+        validateValue();
+    }
+
+    @Override
+    public void changedUpdate(DocumentEvent e) {
+        validateValue();
+    }
+
+    private void validateValue() {
+        String text = cont.getText();
+        try {
+            int value = Integer.parseInt(text);
+            if (value < 0 || value > 180) {
+                if (value < 0) {
+                    cont.setText("0");
+                } else {
+                    cont.setText("180");
+                }
+            }
+        } catch (NumberFormatException ex) {
+        }
+    }
+});
         addSideText("Duracion:", 95, 227, 80, 30);
         addTextBox(cont,160, 232, 70, 22);
         this.add(cont);
@@ -131,6 +216,15 @@ class createExamPanel extends createPanel{
     public static void setDominumArea(String dominios){
         DominiumArea.setText(dominios);
     }
+
+    private boolean camposLlenos (){
+        if(NameBox.getText().isEmpty()||DurationBox.getText().isEmpty()||Levels.getSelectedIndex()==-1||AsociatedCourses.getSelectedIndex()==-1 || DominiumArea.getText().isEmpty()||
+        InstructionsArea.getText().isEmpty()){
+            return false;
+
+        }
+        return true;}
+
     private void getNameBox(){
     }
     private void getLevelBox(){  
@@ -143,5 +237,32 @@ class createExamPanel extends createPanel{
     }
     private void getInstructionsArea (){
 
+}
+public class IntegerDocumentFilter extends DocumentFilter {
+    @Override
+    public void insertString(FilterBypass fb, int offset, String text, AttributeSet attr) throws BadLocationException {
+        String currentText = fb.getDocument().getText(0, fb.getDocument().getLength());
+        currentText += text;
+        try {
+            int value = Integer.parseInt(currentText);
+            if (value >= 0 && value <= 180) {
+                super.insertString(fb, offset, text, attr);
+            }
+        } catch (NumberFormatException e) {
+        }
+    }
+
+    @Override
+    public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+        String currentText = fb.getDocument().getText(0, fb.getDocument().getLength());
+        currentText += text;
+        try {
+            int value = Integer.parseInt(currentText);
+            if (value >= 0 && value <= 180) {
+                super.replace(fb, offset, length, text, attrs);
+            }
+        } catch (NumberFormatException e) {
+        }
+    }
 }
 }
