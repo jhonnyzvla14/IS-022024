@@ -22,6 +22,9 @@ class addDominiumPanel extends createPanel {
         JScrollPane dominiums = new JScrollPane(Doms,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         dominiums.setBounds(dimensiones);
         Doms.setText(createExamPanel.DominiumArea.getText());
+        Doms.setLineWrap(true);
+        Doms.setWrapStyleWord(true);
+        Doms.setAutoscrolls(true);
         this.add(dominiums);
         instruccionesFrame();
         ActionListener oyente =new ActionListener(){

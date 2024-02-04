@@ -1,11 +1,17 @@
 package crearExamenPack;
 
 import javax.swing.*;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
+import javax.swing.text.PlainDocument;
+
 import java.awt.*;
 
 public class createPanel extends JPanel {
     createPanel(){
     }
+
     public void addSideText(String content,int x, int y, int w, int h){
         JLabel cont = new JLabel(content);
         cont.setBounds(x,y, w, h);
@@ -14,6 +20,7 @@ public class createPanel extends JPanel {
         cont.setFont(new Font("MyriadPro", Font.PLAIN, 13));
         this.add(cont);
     }
+
     public void addTextBox(JTextField campo,int x, int y, int w, int h){
         campo.setBounds(x, y, w, h);
     }
@@ -35,12 +42,40 @@ public class createPanel extends JPanel {
         titulo.setBackground(Fondo);
         titulo.setFont(new Font("Roboto Black", Font.PLAIN, s));
     }
+   
     public void addFrameInfo(String Contenido,int x,int y,int w,int h){
         JLabel Info= new JLabel(Contenido);
         Info.setBounds(x,y,w,h);
         Info.setForeground(Color.BLACK);
         Info.setFont(new Font("MyruadPro",Font.BOLD,13));
         this.add(Info);
-
     }
+
+    public class IntegerDocumentFilter extends DocumentFilter {
+    @Override
+    public void insertString(FilterBypass fb, int offset, String text, AttributeSet attr) throws BadLocationException {
+        String currentText = fb.getDocument().getText(0, fb.getDocument().getLength());
+        currentText += text;
+        try {
+            int value = Integer.parseInt(currentText);
+            if (value >= 0 && value <= 180) {
+                super.insertString(fb, offset, text, attr);
+            }
+        } catch (NumberFormatException e) {
+        }
+    }
+
+    @Override
+    public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+        String currentText = fb.getDocument().getText(0, fb.getDocument().getLength());
+        currentText += text;
+        try {
+            int value = Integer.parseInt(currentText);
+            if (value >= 0 && value <= 180) {
+                super.replace(fb, offset, length, text, attrs);
+            }
+        } catch (NumberFormatException e) {
+        }
+    }
+}
 }

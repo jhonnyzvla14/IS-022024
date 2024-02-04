@@ -22,6 +22,9 @@ class addInstruccionPanel extends createPanel {
         JScrollPane Instructions = new JScrollPane(Inst,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         Instructions.setBounds(dimensiones);
         Inst.setText(createExamPanel.InstructionsArea.getText());
+        Inst.setLineWrap(true);
+        Inst.setWrapStyleWord(true);
+        Inst.setAutoscrolls(true);
         this.add(Instructions);
         instruccionesFrame();
         ActionListener oyente =new ActionListener(){

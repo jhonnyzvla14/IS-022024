@@ -25,6 +25,7 @@ class createExamPanel extends createPanel{
     public addDominiumView dominiumWindow;
     public addInstructionView instrucWindow;
     private boolean dialogOpen= false;
+
     public createExamPanel(){
         this.setLayout(null);
         this.setBackground(Fondo); 
@@ -146,21 +147,24 @@ class createExamPanel extends createPanel{
         addTextBox(campo,160, 145, 220, 22);
         this.add(campo);
     }
+   
     private void setLevelBox(JComboBox lista){
         addSideText("Nivel:", 120, 197, 80, 30);
         addComboBox(lista, 160,202 , 130, 22);
         this.add(lista);
     }
+    
     private void setCourseBox(JComboBox lista){
         addSideText("Curso Asociado:", 54, 168, 120, 30);
         addComboBox(lista, 160,173 , 220, 22);
         this.add(lista);
     }
+    
     private void setDurationBox(JTextField cont){
         AbstractDocument document = (AbstractDocument) cont.getDocument();
-document.setDocumentFilter(new IntegerDocumentFilter());
+        document.setDocumentFilter(new IntegerDocumentFilter());
 
-cont.getDocument().addDocumentListener(new DocumentListener() {
+        cont.getDocument().addDocumentListener(new DocumentListener() {
     @Override
     public void insertUpdate(DocumentEvent e) {
         validateValue();
@@ -195,16 +199,25 @@ cont.getDocument().addDocumentListener(new DocumentListener() {
         addTextBox(cont,160, 232, 70, 22);
         this.add(cont);
     }
+    
     private void setDominumArea(JTextArea cont){
+        cont.setLineWrap(true);
+        cont.setWrapStyleWord(true);
+        cont.setAutoscrolls(true);
         addSideText("Dominio(S):", 83, 260, 80, 30);
         addTextArea(cont, 160, 265, 220,50,false);
         this.add(cont);
     }
+   
     private void addInstructionsArea (JTextArea cont){
+        cont.setLineWrap(true);
+        cont.setWrapStyleWord(true);
+        cont.setAutoscrolls(true);
         addSideText("Instrucciones:", 71, 385, 90, 20);
         addTextArea(cont, 160, 385, 220, 90, false);
         this.add(cont);
     }
+   
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawRect(25, 104, 575, 500);
@@ -213,6 +226,7 @@ cont.getDocument().addDocumentListener(new DocumentListener() {
     public static void setInstructionsArea(String instrucciones){
         InstructionsArea.setText(instrucciones);
     }
+    
     public static void setDominumArea(String dominios){
         DominiumArea.setText(dominios);
     }
@@ -238,31 +252,5 @@ cont.getDocument().addDocumentListener(new DocumentListener() {
     private void getInstructionsArea (){
 
 }
-public class IntegerDocumentFilter extends DocumentFilter {
-    @Override
-    public void insertString(FilterBypass fb, int offset, String text, AttributeSet attr) throws BadLocationException {
-        String currentText = fb.getDocument().getText(0, fb.getDocument().getLength());
-        currentText += text;
-        try {
-            int value = Integer.parseInt(currentText);
-            if (value >= 0 && value <= 180) {
-                super.insertString(fb, offset, text, attr);
-            }
-        } catch (NumberFormatException e) {
-        }
-    }
 
-    @Override
-    public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
-        String currentText = fb.getDocument().getText(0, fb.getDocument().getLength());
-        currentText += text;
-        try {
-            int value = Integer.parseInt(currentText);
-            if (value >= 0 && value <= 180) {
-                super.replace(fb, offset, length, text, attrs);
-            }
-        } catch (NumberFormatException e) {
-        }
-    }
-}
 }
